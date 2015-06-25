@@ -17,8 +17,9 @@ try:
 
         while True:        
                 if GPIO.input(23) == 0:
-                        print ('Motion Detected.')
-                        omxp = Popen(['omxplayer', file])
+                        print ('Motoin Detected.')
+                        #The following command prints a description of music file  
+                        omxp=  Popen(['omxplayer', file])
                 time.sleep(1)
 
 except KeyboardInterrupt:
