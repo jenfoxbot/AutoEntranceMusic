@@ -1,6 +1,6 @@
 # AutoEntranceMusic
 Database & API for the Automatic Entrance Music system.
-This system uses IR breakbeam sensors to trigger music when the beam is broken (aka motion trigger).
+This system uses IR breakbeam sensors to trigger music when motion is detected.
 
 ## Setup
 Install node if you haven't already:
