@@ -1,14 +1,16 @@
 #Trigger music using IR sensor
 import os
 import time
-from subprocess import Popen
 
 import RPi.GPIO as GPIO
+from subprocess import Popen
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(23, GPIO.IN)
+GPIO.setup(25, GPIO.IN)
+GPIO.setup(24, GPIO.IN)
 
-file = '/home/pi/Desktop/example.mp3'
+file = '/home/pi/Desktop/projects/example.mp3'
+file2 = file
 
 try:
         print "IR Breakbeam Test (CTRL+C to exit)"
@@ -16,13 +18,17 @@ try:
         print "Ready!"
 
         while True:        
-                if GPIO.input(23) == 0:
-                        print ('Motoin Detected.')
-                        #The following command prints a description of music file  
-                        omxp=  Popen(['omxplayer', file])
+                if (GPIO.input(25) == 0):
+                        print ('Motion Detected.')
+                        #os.system('omxplayer file')
+                        omxp = Popen(['omxplayer', file])
+                if GPIO.input(24) == 0:
+                        print ('Motion Detected.')
+                        omxp = Popen(['omxplayer', file2])
                 time.sleep(1)
 
 except KeyboardInterrupt:
         print "\n Quit"
 
 GPIO.cleanup()
+
