@@ -10,7 +10,7 @@ GPIO.setup(25, GPIO.IN)
 GPIO.setup(24, GPIO.IN)
 
 file = '/home/pi/Desktop/projects/example.mp3'
-file2 = file
+file2 = file #Switch to 2nd file location
 
 try:
         print "IR Breakbeam Test (CTRL+C to exit)"
@@ -20,7 +20,6 @@ try:
         while True:        
                 if (GPIO.input(25) == 0):
                         print ('Motion Detected.')
-                        #os.system('omxplayer file')
                         omxp = Popen(['omxplayer', file])
                 if GPIO.input(24) == 0:
                         print ('Motion Detected.')
