@@ -30,8 +30,8 @@ class AutoTrigger():
     
 def main():
     GPIO.setmode(GPIO.BCM)
-    AutoTrigger(25, '/home/pi/Desktop/projects/ETHEREAL.wav')
-    AutoTrigger(24, '/home/pi/Desktop/projects/PULSE2.wav')
+    AutoTrigger(25, '/home/pi/FolderName/SongName.wav')
+    AutoTrigger(24, '/home/pi/FolderName/SongName2.mp3')
 
     print ("Ready: !")
     try:
