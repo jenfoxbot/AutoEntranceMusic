@@ -1,33 +1,45 @@
-#Trigger music using IR sensor
-import os
 import time
+from threading import Thread
 
 import RPi.GPIO as GPIO
-from subprocess import Popen
+import subprocess
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(25, GPIO.IN)
-GPIO.setup(24, GPIO.IN)
 
-file = '/home/pi/Desktop/projects/example.mp3'
-file2 = file #Switch to 2nd file location
+class AutoTrigger():
+    def call_omxpalyer(self):
+        print ("playing " + self.file_path)
+        pid = subprocess.call(['omxplayer', self.file_path], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        self.is_running = False
 
-try:
-        print "IR Breakbeam Test (CTRL+C to exit)"
-        time.sleep(2)
-        print "Ready!"
+    def play_song(self):
+        if not self.is_running:
+            self.song_thread = Thread(target=self.call_omxpalyer, args=())
+            self.song_thread.start()
+            self.is_running = True
 
-        while True:        
-                if (GPIO.input(25) == 0):
-                        print ('Motion Detected.')
-                        omxp = Popen(['omxplayer', file])
-                if GPIO.input(24) == 0:
-                        print ('Motion Detected.')
-                        omxp = Popen(['omxplayer', file2])
-                time.sleep(1)
+    def __init__(self, pin, file_path):
+        self.pin = pin
+        self.file_path = file_path
+        self.is_running = False
+        GPIO.setup(pin, GPIO.IN)
+        '''
+            This is a hack (the callback) thanks for python closures!
+        '''
+        GPIO.add_event_detect(self.pin, GPIO.FALLING, callback=lambda x: self.play_song(), bouncetime=10)
 
-except KeyboardInterrupt:
-        print "\n Quit"
+    
+def main():
+    GPIO.setmode(GPIO.BCM)
+    AutoTrigger(25, '/home/pi/Desktop/projects/ETHEREAL.wav')
+    AutoTrigger(24, '/home/pi/Desktop/projects/PULSE2.wav')
 
-GPIO.cleanup()
+    print ("Ready: !")
+    try:
+        while True:
+            pass
+    except KeyboardInterrupt:
+        GPIO.cleanup()        
 
+
+if __name__ == '__main__':
+    main()
