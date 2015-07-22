@@ -6,14 +6,14 @@ import subprocess
 
 
 class AutoTrigger():
-    def call_omxpalyer(self):
+    def call_omxplayer(self):
         print ("playing " + self.file_path)
         pid = subprocess.call(['omxplayer', self.file_path], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
         self.is_running = False
 
     def play_song(self):
         if not self.is_running:
-            self.song_thread = Thread(target=self.call_omxpalyer, args=())
+            self.song_thread = Thread(target=self.call_omxplayer, args=())
             self.song_thread.start()
             self.is_running = True
 
